@@ -2,17 +2,20 @@
 
 ## Key takeaways
 
-- Skills are dormant until their description matches a request — the description does all the triggering work, not the skill name
-- SKILL.md is a runbook written in English, not code. Claude reads it and executes the steps. Scripts live in `scripts/` and get called by the runbook.
-- Progressive disclosure: keep SKILL.md under 500 lines, link to references that load on-demand
-- One skill = one user capability. Internal complexity (multiple scripts, multiple steps) is fine, but the user only triggers once.
+- Skills are NOT Python code that runs automatically — they're English instructions that Claude reads and follows step-by-step
+- SKILL.md is a runbook. Claude executes it by using its normal tools (bash, file writes, etc.)
+- The description field does two jobs: explains WHAT the skill does + lists WHEN to trigger it (trigger phrases matter)
+- One skill = one user-facing capability. Multiple internal steps are fine, but user triggers once.
+- Progressive disclosure: SKILL.md stays under 500 lines, heavy content goes in separate files that load on-demand
 
-## What surprised me
+## What the practice skill taught me
 
-- I expected skills to be Python code that Claude runs. They're actually instructions Claude follows while using its normal tools.
-- The restart requirement — skills load at startup, so edits don't apply until you restart Claude Code.
+- The description needs concrete trigger phrases ("log today's progress", "journal entry") — vague descriptions won't match
+- Skills load at startup, so you have to restart Claude Code after editing
+- Watching Claude follow the runbook step-by-step (check file → ask questions → append entry) made it click that SKILL.md is literally a checklist, not magic
 
 ## Still fuzzy on
 
-- How exactly does semantic matching work in descriptions? Is it keyword-based or something smarter?
-- When would I use `allowed-tools` in real life?o
+- How to structure a long SKILL.md — what's the pattern for linking to external references?
+- Best practices for writing example usage (should examples be in SKILL.md or separate files?)
+- How semantic matching actually works under the hood (is it just keyword overlap or something smarter?)
