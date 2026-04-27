@@ -1,0 +1,22 @@
+[
+  {
+    "task": "Write a Python function that parses an AWS S3 object URI (s3://bucket-name/key/path) and returns a dictionary with 'bucket' and 'key' as separate fields",
+    "format": "python"
+  },
+  {
+    "task": "Create a JSON CloudFormation template snippet that defines an AWS IAM role with a trust policy allowing EC2 instances to assume it",
+    "format": "json"
+  },
+  {
+    "task": "Write a regex pattern that matches valid AWS S3 bucket names (3-63 characters, lowercase letters, numbers, and hyphens only, cannot start or end with hyphen)",
+    "format": "regex"
+  },
+  {
+    "task": "Write a Python function that takes an AWS CloudWatch log group name and converts it to a valid metric alarm name by removing special characters and truncating to 256 characters",
+    "format": "python"
+  },
+  {
+    "task": "Create a JSON object representing an AWS Lambda environment variables configuration with common variables like DATABASE_URL, API_KEY, and ENVIRONMENT",
+    "format": "json"
+  }
+]
