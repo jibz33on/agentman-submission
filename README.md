@@ -1,46 +1,61 @@
-# Agentman Guild Application — Homework Submission
+# Agentman Guild Application — Jibin Kunjumon
 
-This repository contains my pre-interview homework for the Agentman Guild application.
+Pre-interview homework submission for the Agentman Guild program.
 
-## What This Is
+---
 
-Self-paced evaluation homework sent by Prasad Thammineni (Founder & CEO, prasad@agentman.ai).
-Completing this unlocks the interview. Faster, higher-quality submissions get scheduled sooner.
+## Bonus Skill — Earnings Call Summarizer
 
-## Structure
+> The main deliverable. Paste any public earnings call transcript and get a structured briefing in seconds.
 
-```
-agentman-submission/
-├── cli_project/                  # Course 2: MCP CLI chat app (tools, resources, prompts)
-├── evaluation-practice/          # Course 3: Prompt evaluation pipeline (dataset, grading, scoring)
-├── earnings-call-summarizer/     # Bonus skill: summarizes earnings call transcripts
-│   ├── skill.md                  # Skill prompt and output format
-│   ├── main.py                   # Entry point (CLI)
-│   ├── helpers.py                # Claude API helpers
-│   └── examples/                 # Sample transcripts for demo
-├── notes/                        # Course notes
-│   ├── course-1-agent-skills.md
-│   ├── course-2-mcp.md
-│   ├── course-3-claude-api.md
-│   └── journal.md
-└── course-screenshots/           # Completion proof
+**What it does:** Extracts key metrics, highlights, risks, outlook, and analyst Q&A themes from earnings call transcripts — the kind of dense 60-minute calls that usually take an analyst 30 minutes to digest.
+
+**Why:** Aligned with Agentman's Moneyman (fintech) vertical. Solves a real, recurring problem.
+
+**How to run:**
+```bash
+cd bonus-skill
+uv run --with anthropic --with python-dotenv main.py
 ```
 
-## Courses (Part 1 - Required)
+→ [`bonus-skill/`](bonus-skill/) — skill prompt, CLI, demo transcript, eval pipeline
 
-| # | Course | Status |
-|---|--------|--------|
-| 1 | Introduction to Agent Skills | ✅ Complete |
-| 2 | Introduction to Model Context Protocol | ✅ Complete |
-| 3 | Building with the Claude API | 🔄 In Progress |
-| 4 | Claude Code in Action | ⏳ Pending |
+---
 
-## Bonus Skill (Part 2 - Optional)
+## Required Courses (Part 1)
 
-**Earnings Call Summarizer** — pastes a public company earnings call transcript and returns a structured briefing: revenue, growth, key highlights, risks, outlook, and analyst Q&A points. Aligned with Agentman's Moneyman vertical.
+| # | Course | Certificate |
+|---|--------|------------|
+| 1 | Introduction to Agent Skills | [PDF](certificates/certificate-introduction%20to%20skills.pdf) |
+| 2 | Introduction to Model Context Protocol | [PDF](certificates/certificate-Introduction%20to%20MCP.pdf) |
+| 3 | Building with the Claude API | [PDF](certificates/certificate-building_with_Claude.pdf) |
+| 4 | Claude Code in Action | [PDF](certificates/certificate-claude_code_in_action.pdf) |
 
-## Timeline
+---
 
-7-day sprint:
-- Days 1–2: Complete all 4 courses + screenshots
-- Days 3–7: Build bonus skill (if pursuing Part 2)
+## Projects Built
+
+### Course 2 — MCP CLI Chat App
+A command-line chat app backed by an MCP server with tools, resources, and prompts. Supports `@mention` document loading and `/command` prompt dispatch.
+
+→ [`course-2-mcp-cli/`](course-2-mcp-cli/)
+
+### Course 3 — Prompt Evaluation Pipeline
+A Python pipeline that generates test datasets, runs prompts through Claude, and scores outputs using model grading + syntax validation. Used to iteratively improve prompts from a 5.9 baseline to 8.2.
+
+→ [`course-3-eval-pipeline/`](course-3-eval-pipeline/)
+
+---
+
+## Course Notes
+
+Concise, plain-English notes for each course — no code, just the concepts.
+
+→ [`notes/`](notes/)
+
+---
+
+## Submission
+
+- Form: https://forms.gle/ohhwmZ5HYB9SDrsv8
+- Contact: jibz33on@gmail.com

@@ -2,158 +2,190 @@
 
 ## API Basics
 
-Send a `POST` to `/v1/messages` with these four fields:
+To talk to Claude, you send a request with four things: your API key, which model to use, the conversation messages, and a max token limit. The response gives you back the text, how many tokens were used, and why Claude stopped.
 
-| Field | What it is |
-|-------|-----------|
-| `x-api-key` | Your API key (in the header) |
-| `model` | Which Claude version to use |
-| `messages` | The conversation content |
-| `max_tokens` | Cap on response length |
-
-- Generate keys in the [Anthropic Console](https://console.anthropic.com) — one per project
-- Store as an environment variable, never hardcode
-- Response includes: text, token usage, stop reason, model used
+- Generate keys in the Anthropic Console — one per project
+- Store as an environment variable, never hardcode it
 
 ---
 
 ## Multi-Turn Conversations
 
-The API is stateless. Send the full message history with every request — Claude has no memory between calls.
-
-```python
-messages = [
-    {"role": "user", "content": "Hello"},
-    {"role": "assistant", "content": "Hi! How can I help?"},
-    {"role": "user", "content": "What's the capital of France?"},
-]
-```
+The API has no memory. Every request must include the full conversation history — every user and assistant message from the beginning. Claude doesn't remember anything between calls.
 
 ---
 
 ## System Prompts
 
-Sit outside `messages`, apply to every response. Use for role definitions, output format requirements, and behavioral constraints. More authoritative than user messages.
+A special instruction you set once that applies to every reply. Use it to define Claude's role, set the output format, or add rules. It carries more weight than regular user messages.
 
 ---
 
 ## Temperature
 
+Controls how predictable or creative Claude's responses are.
+
 | Value | Behavior | Best for |
 |-------|----------|---------|
-| `0` | Deterministic | Code, data extraction |
-| `0.1–0.3` | Slight variation | Most production use |
-| `0.7–1.0` | Creative | Brainstorming, writing |
-
-Default for production: `0–0.3`.
+| 0 | Always the same answer | Code, data extraction |
+| 0.1–0.3 | Slight variation | Most production use |
+| 0.7–1.0 | More creative and varied | Brainstorming, writing |
 
 ---
 
 ## Streaming
 
-Delivers the response incrementally via Server-Sent Events — user sees text appear in real time instead of waiting for the full response. Significant latency improvement for conversational interfaces.
+Instead of waiting for the full response, streaming sends it word by word as it's generated — like watching someone type in real time. Makes the app feel much faster.
 
 ---
 
 ## Prefilling
 
-Add an `assistant` message at the end of `messages` to seed Claude's response. Claude continues from there.
+You can start Claude's reply for it by adding an assistant message at the end of the conversation. Claude will continue from exactly where you left off — useful for forcing a specific output format and skipping unnecessary preamble.
 
-```python
-messages = [
-    {"role": "user", "content": "Generate tasks in JSON"},
-    {"role": "assistant", "content": "```json"},  # Claude continues here
-]
-```
-
-Use to skip preamble and force a specific output structure. **Not all models support it** — Haiku 4.5 does, Sonnet 4.6 does not.
+Not all models support this — Haiku 4.5 does, Sonnet 4.6 does not.
 
 ---
 
 ## Stop Sequences
 
-Stop generation when Claude hits a specific string (string excluded from output).
+Tell Claude to stop generating as soon as it hits a specific word or symbol. The stop word itself is not included in the output. Useful for extracting clean output without extra text at the end.
 
-```python
-client.messages.create(..., stop_sequences=["```"])
-```
-
-**Pair with prefilling for clean JSON:** prefill with ` ```json `, stop at ` ``` ` → raw JSON, no fences to strip.
+Tip: pair with prefilling to get clean JSON — start the reply with the opening fence, stop at the closing fence, and you get raw JSON with nothing to strip.
 
 ---
 
 ## Model Selection
 
-| Model | ID | Best for |
-|-------|-----|---------|
-| Haiku 4.5 | `claude-haiku-4-5-20251001` | High-volume, cheap/fast tasks |
-| Sonnet 4.6 | `claude-sonnet-4-6` | Main work, complex tasks |
-| Opus 4.5 | `claude-opus-4-5` | Deepest reasoning |
+| Model | Best for |
+|-------|---------|
+| Haiku 4.5 | High-volume, cheap, fast tasks |
+| Sonnet 4.6 | Main work, complex tasks |
+| Opus 4.5 | Deepest reasoning |
 
-In pipelines: use Haiku for dataset generation and workers, Sonnet where quality matters.
+In pipelines: use Haiku for generating datasets and repetitive tasks, Sonnet where quality matters.
 
 ---
 
 ## Structured Outputs (JSON)
 
-Prompt Claude explicitly with field names, types, and an example schema. Validate the response after the call — retry if malformed.
+Tell Claude exactly what fields you want, what type each field is, and give an example. Always validate the response after the call — if it's malformed, retry.
 
 ---
 
 ## Prompt Evaluation
 
-**The problem:** Testing a prompt once or twice, then shipping. Production users always find inputs you didn't consider.
+**The problem:** Testing a prompt a couple of times and assuming it works. Real users will always find inputs you didn't think of.
 
-**The fix — evaluation-first loop:**
+**The fix — evaluation loop:**
 
-| Step | What happens | Script |
-|------|-------------|--------|
-| Draft | Write/edit the prompt | `run_eval.py` |
-| Dataset | Generate test tasks with format tags | `generate_dataset.py` → `dataset.json` |
-| Generate | Run each task through Claude | `run_prompt()` |
-| Grade | Score quality + syntax validity | `grade_by_model()` + `grade_syntax()` |
-| Iterate | Tweak prompt, re-run, compare avg scores | repeat |
+1. Write a prompt
+2. Generate a dataset of test tasks
+3. Run every task through the prompt
+4. Grade each output (quality + format correctness)
+5. Read the reasoning to understand what's failing
+6. Tweak the prompt and repeat
 
-Dataset generation uses Haiku + prefilling + stop sequences for cheap, clean JSON. Each task has a `"format"` field (`"python"`, `"json"`, `"regex"`) so the syntax grader knows what to validate.
+Two types of grading combined:
+- **Model grading** — Claude scores 1–10 for quality and explains why
+- **Syntax grading** — deterministic check: is the output valid code/JSON/regex? 10 if yes, 1 if no
+- Final score = average of both
 
-**Grading — two scores combined:**
-- `grade_by_model()` — Claude scores 1–10 for quality + returns reasoning
-- `grade_syntax()` — deterministic: `ast.parse` / `json.loads` / `re.compile` → 10 if valid, 1 if not
-- `score = (model_score + syntax_score) / 2`
+If syntax scores are consistently low, the prompt isn't being specific enough about the output format.
 
-Model grading catches quality issues; code grading catches structural failures (markdown fences, truncated output). If syntax scores are consistently low, tighten the prompt: "Return raw code only, no markdown fences."
+---
 
-```bash
-uv run --with anthropic --with python-dotenv generate_dataset.py  # once
-uv run --with anthropic --with python-dotenv run_eval.py          # every iteration
-```
+## Tool Use (Function Calling)
+
+Lets Claude call external functions — search engines, databases, APIs — and use the results in its response.
+
+**How it works:**
+
+1. You define tools (name, what it does, what inputs it takes)
+2. You send the tools along with your message
+3. Claude either replies normally, or asks to call one of the tools
+4. Your code runs the function and sends the result back
+5. Claude uses the result to finish its reply
+
+You can give Claude multiple tools and it will pick the right one. You can also force it to always use a specific tool, or let it decide.
+
+Built-in tools available: text editing and web search.
+
+---
+
+## RAG (Retrieval-Augmented Generation)
+
+Solves the problem of Claude not knowing your private or up-to-date data. Instead of retraining the model, you retrieve relevant documents at query time and inject them into the prompt as context.
+
+### Text Chunking Strategies
+
+Documents are too long to send to Claude all at once, so you split them into smaller pieces called chunks. How you split them directly affects the quality of answers — bad chunking means Claude gets the wrong context.
+
+| Strategy | How it works | Best for |
+|----------|-------------|---------|
+| **Size-based** | Split by fixed character count, with some overlap between chunks | Any document type — reliable default |
+| **Structure-based** | Split on headers or sections | Markdown or well-formatted documents you control |
+| **Sentence-based** | Split on sentence endings, group N sentences together | Most plain-text documents |
+| **Semantic-based** | Group sentences by how related they are in meaning | Highest quality, but slow and complex |
+
+**Overlap** — each chunk includes a few characters or sentences from the chunk before it, so context isn't lost at the boundary.
+
+**Production default:** size-based with overlap — simple, works with any content type.
+
+---
+
+### Text Embeddings
+
+After chunking, you need a way to find which chunks are most relevant to a user's question. Embeddings do this by converting text into a list of numbers that represent its meaning — so you can compare meaning mathematically, not just by matching keywords.
+
+- Anthropic doesn't provide embeddings — use **VoyageAI** (free to start)
+- The same model must embed both the chunks and the user's question for comparison to work
+- When embedding chunks, use document mode; when embedding a query, use query mode
+
+Think of it like GPS coordinates for meaning — two texts about the same topic will have numbers close to each other, even if they use different words.
+
+---
+
+## Workflows vs Agents
+
+Two ways to build AI applications — choose based on how predictable the task is.
+
+**Workflow** — you design the steps in advance. Claude follows a fixed sequence, each step focused on one small task. Like a recipe.
+
+**Agent** — Claude gets a set of tools and figures out the steps itself. You don't know the exact sequence ahead of time.
+
+| | Workflow | Agent |
+|---|----------|-------|
+| Best for | Well-defined, repeatable tasks | Unpredictable, open-ended tasks |
+| Accuracy | Higher — focused on one subtask at a time | Lower — more decisions, more chances to go wrong |
+| Testability | Easy — you know every step | Hard — steps vary each run |
+| Flexibility | Low — built for specific inputs | High — handles novel situations |
+| Predictability | High | Low |
+
+**Default to workflows.** Users want reliability, not fancy AI. Only use agents when the task genuinely can't be broken into predictable steps upfront.
 
 ---
 
 ## Prompt Engineering Techniques
 
-Iterative refinement: start simple, measure, improve one thing at a time, repeat.
+Start simple, measure the score, improve one thing at a time, repeat.
 
-**Loop:** goal → baseline prompt → evaluate → apply one technique → re-evaluate → repeat
-
-- Start with a naive prompt (~2–3/10 is expected) — gives you a baseline to beat
-- Pass `extra_criteria` to the grader so it knows what a good response requires
-- Read the `reasoning` field to understand *why* scores are low before picking your next change
+**Loop:** write baseline → evaluate → apply one technique → re-evaluate → repeat
 
 ### Techniques (in order of impact)
 
 | # | Technique | What it does | Score |
 |---|-----------|-------------|-------|
-| 0 | Baseline | `Please solve the following task` | 5.9 |
-| 1 | **Clear & direct** | Start with an action verb, state task + constraints upfront | 4.4 |
-| 2 | **Output guidelines** | List explicit requirements for the response format | 6.3 |
-| 3 | **XML tags** | Wrap content in descriptive tags to remove ambiguity | 6.7 |
-| 4 | **One-shot example** | Show one ideal input/output pair using `<sample_input>` / `<ideal_output>` | 8.2 |
-| 5 | **Multi-shot examples** | Add more examples per format type | 8.2 |
+| 0 | Baseline | Vague instruction | 5.9 |
+| 1 | **Clear & direct** | Start with an action verb, state the task and constraints upfront | 4.4 |
+| 2 | **Output guidelines** | List exactly what the response must look like | 6.3 |
+| 3 | **XML tags** | Wrap input content in descriptive tags to remove ambiguity | 6.7 |
+| 4 | **One-shot example** | Show one perfect input/output pair | 8.2 |
+| 5 | **Multi-shot examples** | Add more examples | 8.2 |
 
 **Key takeaways:**
-- Clear & direct alone can hurt if the output format isn't also specified
-- Output guidelines are the real lever — especially for format constraints like "no markdown fences"
+- Being clear and direct alone can hurt if the format isn't also specified
+- Output guidelines are the real lever — especially "no markdown fences, raw output only"
 - Examples are the most powerful technique: showing beats telling
-- Multi-shot has diminishing returns once Claude understands the pattern from one example
-- Always make one change at a time so you know what moved the score
+- More examples have diminishing returns once Claude gets the pattern from one
+- Change one thing at a time so you know what moved the score

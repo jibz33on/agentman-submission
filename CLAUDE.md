@@ -60,3 +60,79 @@ When spawning subagents (Agent/Task tool), the routing block is automatically in
 | `ctx stats` | Call the `ctx_stats` MCP tool and display the full output verbatim |
 | `ctx doctor` | Call the `ctx_doctor` MCP tool, run the returned shell command, display as checklist |
 | `ctx upgrade` | Call the `ctx_upgrade` MCP tool, run the returned shell command, display as checklist |
+
+---
+
+# Project: Agentman Guild Application
+
+## What This Is
+
+Pre-interview homework for the Agentman Guild. Completing all parts unlocks the interview.
+Submitted by Jibin Kunjumon (jibz33on@gmail.com).
+
+## Structure
+
+```
+agentman-submission/
+├── bonus-skill/                  # Bonus skill: earnings call transcript summariser
+│   ├── skill.md                  # Skill prompt and output format
+│   ├── main.py                   # CLI entry point
+│   ├── helpers.py                # Claude API helpers
+│   ├── examples/                 # Sample transcripts for demo
+│   └── eval/                     # Evaluation dataset, grading, iteration log (to build)
+├── course-2-mcp-cli/             # Course 2: MCP CLI chat app
+├── course-3-eval-pipeline/       # Course 3: Prompt evaluation pipeline
+├── certificates/                 # Course completion certificates
+└── notes/                        # Course notes (1–4)
+```
+
+## Courses
+
+| # | Course | Status |
+|---|--------|--------|
+| 1 | Introduction to Agent Skills | ✅ Complete |
+| 2 | Introduction to MCP | ✅ Complete |
+| 3 | Building with the Claude API | ✅ Complete |
+| 4 | Claude Code in Action | ✅ Complete |
+
+## Bonus Skill — Earnings Call Summarizer
+
+Paste a public company earnings call transcript → get a structured briefing with key metrics, highlights, risks, outlook, and analyst Q&A themes.
+
+Target output format:
+- Company / Quarter / Year
+- Key Metrics (revenue, EPS, guidance)
+- Highlights (3–5 bullets)
+- Risks & Challenges (3–5 bullets)
+- Outlook (management forward guidance)
+- Analyst Q&A Themes (2–3 recurring topics)
+
+The eval/ folder will contain test cases, gold standards, grading script, and iteration log showing prompt improvement scores.
+
+## Key Commands
+
+```bash
+# Run the earnings call summarizer
+cd bonus-skill && uv run --with anthropic --with python-dotenv main.py
+
+# Run the evaluation pipeline
+cd course-3-eval-pipeline && uv run --with anthropic --with python-dotenv run_eval.py
+
+# Run the MCP CLI chat app
+cd course-2-mcp-cli && uv run main.py
+```
+
+## Important Files
+
+- @bonus-skill/skill.md — the core skill prompt
+- @course-3-eval-pipeline/run_eval.py — evaluation and grading pipeline
+- @notes/course-3-claude-api.md — Claude API reference notes
+- @notes/course-4-claude-code.md — Claude Code reference notes
+
+## Coding Style
+
+- Python throughout
+- Use uv for running scripts
+- No hardcoded API keys — always use .env
+- Keep files small and focused
+- No unnecessary comments
