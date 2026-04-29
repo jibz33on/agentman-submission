@@ -1,0 +1,34 @@
+--- FRAUDSENTINEL REJECTED TRANSACTION ---
+
+TRANSACTION
+  Amount:    £12,400
+  Currency:  GBP
+  Merchant:  WireTransfer Global
+  Location:  Dubai, UAE
+  Date/Time: 2024-09-03 02:11 UTC
+  Device:    Desktop (new — unregistered)
+  IP:        185.220.101.45
+
+USER PROFILE
+  Account ID:       ACC-07714
+  Account age:      8 days
+  Tx count:         2
+  Avg spend:        £340
+  Known countries:  UK
+  Known merchants:  Amazon, Costa Coffee
+  Typical hours:    09:00–18:00
+
+FRAUDSENTINEL OUTPUT
+  Detector flags:   foreign_transaction, high_risk_merchant, new_device, new_account,
+                    amount_vs_baseline, ip_location_mismatch, velocity
+  Detector score:   96 / 100
+  Investigator:     SKIPPED (< 5 transactions — no behavioural baseline)
+  Final verdict:    REJECTED
+  Confidence:       98%
+  Decision reason:  Maximum-risk profile. Wire transfer to Dubai on 8-day-old account
+                    from Tor-associated IP (185.220.101.45) via unregistered device at
+                    02:11 UTC. Amount 36x above baseline. All 7 detector flags triggered.
+                    Immediate freeze recommended.
+
+ANALYST NOTES
+  IP 185.220.101.45 flagged in Europol cybercrime database — known Tor exit node.

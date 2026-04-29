@@ -2,3 +2,7 @@
 __pycache__
 .venv
 .DS_Store
+CLAUDE.md
+notes/sar-skill-reference.md
+.github/
+.claude/

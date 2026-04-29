@@ -4,32 +4,34 @@ Pre-interview homework submission for the Agentman Guild program.
 
 ---
 
-## Bonus Skill — Earnings Call Summarizer
+## Bonus Skill — SAR Narrative Generator
 
-> The main deliverable. Paste any public earnings call transcript and get a structured briefing in seconds.
+> The main deliverable. Paste a FraudSentinel REJECTED transaction and get a compliance-ready SAR narrative in seconds.
 
-**What it does:** Extracts key metrics, highlights, risks, outlook, and analyst Q&A themes from earnings call transcripts — the kind of dense 60-minute calls that usually take an analyst 30 minutes to digest.
+**What it does:** Turns raw fraud agent output into a structured Suspicious Activity Report (SAR) in FinCEN/FCA format — replacing 20–30 minutes of manual drafting per case. Handles threshold checks, maps detector flags to regulatory language, and recommends the correct action (file / freeze / monitor).
 
-**Why:** Aligned with Agentman's Moneyman (fintech) vertical. Solves a real, recurring problem.
+**Why:** Aligned with Agentman's Moneyman (fintech) vertical. SAR filing is legally mandatory — this directly removes bottleneck work for compliance officers.
+
+**Eval results:** 3 iterations, score improved from 7.54 → 7.83 using rule-based + model grading.
 
 **How to run:**
 ```bash
-cd bonus-skill
-uv run --with anthropic --with python-dotenv main.py
+cd sar-skill
+python main.py
 ```
 
-→ [`bonus-skill/`](bonus-skill/) — skill prompt, CLI, demo transcript, eval pipeline
+→ [`sar-skill/`](sar-skill/) — skill prompt, CLI, example cases, eval pipeline with iteration log
 
 ---
 
 ## Required Courses (Part 1)
 
-| # | Course | Certificate |
-|---|--------|------------|
-| 1 | Introduction to Agent Skills | [PDF](certificates/certificate-introduction%20to%20skills.pdf) |
-| 2 | Introduction to Model Context Protocol | [PDF](certificates/certificate-Introduction%20to%20MCP.pdf) |
-| 3 | Building with the Claude API | [PDF](certificates/certificate-building_with_Claude.pdf) |
-| 4 | Claude Code in Action | [PDF](certificates/certificate-claude_code_in_action.pdf) |
+| # | Course | Certificate | Screenshot |
+|---|--------|------------|------------|
+| 1 | Introduction to Agent Skills | [PDF](certificates/certificate-introduction%20to%20skills.pdf) | [PNG](screenshots/Introduction%20to%20agent%20skills.png) |
+| 2 | Introduction to Model Context Protocol | [PDF](certificates/certificate-Introduction%20to%20MCP.pdf) | [PNG](screenshots/Introduction%20to%20MCP.png) |
+| 3 | Building with the Claude API | [PDF](certificates/certificate-building_with_Claude.pdf) | [PNG](screenshots/Building%20with%20claude%20API.png) |
+| 4 | Claude Code in Action | [PDF](certificates/certificate-claude_code_in_action.pdf) | [PNG](screenshots/Claude%20Code%20in%20action.png) |
 
 ---
 

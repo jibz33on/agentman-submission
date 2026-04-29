@@ -1,0 +1,45 @@
+SUBJECT: ACC-00847 | Transaction Ref: 2024-03-15T03:42
+
+⚠️ THRESHOLD CHECK: BELOW £5,000 THRESHOLD — confirm with compliance before filing.
+Note: high-risk merchant category (cryptocurrency exchange) may trigger mandatory
+reporting regardless of amount under UK MLRs 2017 / FCA guidance.
+
+---
+
+SUSPICIOUS_ACTIVITY_DESCRIPTION:
+On 15 March 2024 at 03:42 UTC, account ACC-00847 initiated a transaction of £4,200
+to CryptoSwap Pro, a cryptocurrency exchange, from a location in Lagos, Nigeria. The
+account, opened 23 days prior, had recorded only four previous transactions totalling
+approximately £720, all to established UK retail merchants (Tesco, Netflix, Amazon)
+during daytime hours (08:00–22:00). The transaction was conducted via a previously
+unregistered mobile device and originated from IP address 102.89.33.201, inconsistent
+with the account's known geography (United Kingdom).
+
+INDICATORS_OF_SUSPICION:
+The transaction exhibits multiple indicators consistent with account takeover or
+layering of illicit funds. The merchant category (cryptocurrency exchange) represents
+a high-risk typology frequently associated with money laundering activity. The
+transaction amount of £4,200 exceeds the account's established average spend of £180
+by a factor of 23, representing a significant deviation from baseline behaviour.
+Access from an unregistered device combined with a foreign IP address during off-hours
+(03:42 UTC vs. typical 08:00–22:00 pattern) is consistent with unauthorised account
+access. The geographic discrepancy between known activity (UK) and transaction origin
+(Lagos, Nigeria) warrants further review.
+
+PRIOR_RELATIONSHIP:
+Account ACC-00847 was opened 23 days ago and has a limited transaction history of four
+transactions. The account has shown no prior international activity, no prior
+transactions to high-risk merchant categories, and no prior off-hours activity.
+Insufficient history exists to establish a reliable behavioural baseline. This is the
+first anomaly observed on the account.
+
+RECOMMENDED_ACTION:
+Freeze account pending investigation and file SAR. The combination of high-risk merchant
+category, geographic anomaly, new device access, and significant deviation from baseline
+warrants immediate action despite amount falling below standard threshold.
+
+---
+
+⚠️ ANALYST REMINDER: Review all figures against source data before filing.
+Thresholds vary by jurisdiction. This is a first draft — do not file without review.
+Verify CryptoSwap Pro merchant categorisation and confirm Lagos IP geolocation.

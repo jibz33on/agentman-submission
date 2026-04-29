@@ -1,0 +1,31 @@
+--- FRAUDSENTINEL REJECTED TRANSACTION ---
+
+TRANSACTION
+  Amount:    £4,200
+  Currency:  GBP
+  Merchant:  CryptoSwap Pro
+  Location:  Lagos, Nigeria
+  Date/Time: 2024-03-15 03:42 UTC
+  Device:    Mobile (new — unregistered)
+  IP:        102.89.33.201
+
+USER PROFILE
+  Account ID:       ACC-00847
+  Account age:      23 days
+  Tx count:         4
+  Avg spend:        £180
+  Known countries:  UK
+  Known merchants:  Tesco, Netflix, Amazon
+  Typical hours:    08:00–22:00
+
+FRAUDSENTINEL OUTPUT
+  Detector flags:   foreign_transaction, high_risk_merchant, new_device, new_account
+  Detector score:   87 / 100
+  Investigator:     SKIPPED (< 5 transactions — no behavioural baseline)
+  Final verdict:    REJECTED
+  Confidence:       91%
+  Decision reason:  High-risk merchant (crypto exchange) + foreign IP on new account
+                    with no behavioural baseline. Detector override applied (score 87).
+
+ANALYST NOTES
+  (none)

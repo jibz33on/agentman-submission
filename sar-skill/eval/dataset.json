@@ -1,0 +1,20 @@
+[
+  {
+    "id": "case1_baseline",
+    "description": "New account, crypto merchant, foreign IP — multiple flags, high confidence",
+    "expected_action": "freeze",
+    "input": "--- FRAUDSENTINEL REJECTED TRANSACTION ---\n\nTRANSACTION\n  Amount:    £4,200\n  Currency:  GBP\n  Merchant:  CryptoSwap Pro\n  Location:  Lagos, Nigeria\n  Date/Time: 2024-03-15 03:42 UTC\n  Device:    Mobile (new — unregistered)\n  IP:        102.89.33.201\n\nUSER PROFILE\n  Account ID:       ACC-00847\n  Account age:      23 days\n  Tx count:         4\n  Avg spend:        £180\n  Known countries:  UK\n  Known merchants:  Tesco, Netflix, Amazon\n  Typical hours:    08:00–22:00\n\nFRAUDSENTINEL OUTPUT\n  Detector flags:   foreign_transaction, high_risk_merchant, new_device, new_account\n  Detector score:   87 / 100\n  Investigator:     SKIPPED (< 5 transactions — no behavioural baseline)\n  Final verdict:    REJECTED\n  Confidence:       91%\n  Decision reason:  High-risk merchant (crypto exchange) + foreign IP on new account\n                    with no behavioural baseline. Detector override applied (score 87).\n\nANALYST NOTES\n  (none)"
+  },
+  {
+    "id": "case2_borderline",
+    "description": "Established account, gambling merchant, borderline confidence, analyst notes suggest legitimate spend",
+    "expected_action": "monitor",
+    "input": "--- FRAUDSENTINEL REJECTED TRANSACTION ---\n\nTRANSACTION\n  Amount:    £1,850\n  Currency:  GBP\n  Merchant:  BetKing Casino\n  Location:  United Kingdom\n  Date/Time: 2024-06-22 21:15 UTC\n  Device:    Mobile (known — registered)\n  IP:        82.44.201.17\n\nUSER PROFILE\n  Account ID:       ACC-03291\n  Account age:      142 days\n  Tx count:         31\n  Avg spend:        £95\n  Known countries:  UK\n  Known merchants:  Sainsburys, Spotify, ASOS, Just Eat\n  Typical hours:    07:00–23:00\n\nFRAUDSENTINEL OUTPUT\n  Detector flags:   high_risk_merchant, amount_vs_baseline\n  Detector score:   54 / 100\n  Investigator:     Deviation score 41 / 100\n                    Account shows occasional evening spend. No prior gambling\n                    transactions. Amount is 19x above average but account has\n                    established history. Single anomaly on otherwise clean profile.\n  Final verdict:    REJECTED\n  Confidence:       61%\n  Decision reason:  High-risk merchant (gambling) with significant amount deviation.\n                    Borderline score — investigator notes established account history\n                    as mitigating factor.\n\nANALYST NOTES\n  Customer called in last week asking about betting limits — may be intentional spend."
+  },
+  {
+    "id": "case3_high_risk",
+    "description": "New account, wire transfer to Dubai, Tor IP, all 7 flags — maximum risk",
+    "expected_action": "freeze",
+    "input": "--- FRAUDSENTINEL REJECTED TRANSACTION ---\n\nTRANSACTION\n  Amount:    £12,400\n  Currency:  GBP\n  Merchant:  WireTransfer Global\n  Location:  Dubai, UAE\n  Date/Time: 2024-09-03 02:11 UTC\n  Device:    Desktop (new — unregistered)\n  IP:        185.220.101.45\n\nUSER PROFILE\n  Account ID:       ACC-07714\n  Account age:      8 days\n  Tx count:         2\n  Avg spend:        £340\n  Known countries:  UK\n  Known merchants:  Amazon, Costa Coffee\n  Typical hours:    09:00–18:00\n\nFRAUDSENTINEL OUTPUT\n  Detector flags:   foreign_transaction, high_risk_merchant, new_device, new_account,\n                    amount_vs_baseline, ip_location_mismatch, velocity\n  Detector score:   96 / 100\n  Investigator:     SKIPPED (< 5 transactions — no behavioural baseline)\n  Final verdict:    REJECTED\n  Confidence:       98%\n  Decision reason:  Maximum-risk profile. Wire transfer to Dubai on 8-day-old account\n                    from Tor-associated IP (185.220.101.45) via unregistered device at\n                    02:11 UTC. Amount 36x above baseline. All 7 detector flags triggered.\n                    Immediate freeze recommended.\n\nANALYST NOTES\n  IP 185.220.101.45 flagged in Europol cybercrime database — known Tor exit node."
+  }
+]

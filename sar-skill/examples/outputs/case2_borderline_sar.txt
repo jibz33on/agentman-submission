@@ -1,0 +1,49 @@
+SUBJECT: ACC-03291 | Transaction Ref: 2024-06-22T21:15
+
+⚠️ THRESHOLD CHECK: BELOW £5,000 THRESHOLD — confirm with compliance before filing.
+Note: gambling transaction flagged by automated system but confidence is borderline (61%).
+Analyst notes indicate possible legitimate activity. Review required before filing.
+
+---
+
+SUSPICIOUS_ACTIVITY_DESCRIPTION:
+On 22 June 2024 at 21:15 UTC, account ACC-03291 initiated a transaction of £1,850
+to BetKing Casino, a gambling operator, from the account holder's known device (registered
+mobile) and a UK IP address (82.44.201.17). The account, opened 142 days prior, had
+recorded 31 previous transactions averaging £95, primarily to retail merchants (Sainsburys,
+ASOS), subscription services (Spotify), and food delivery (Just Eat). The transaction
+occurred within the account's typical activity hours (07:00–23:00) and originated from
+the account holder's known geography (United Kingdom).
+
+INDICATORS_OF_SUSPICION:
+The transaction exhibits characteristics consistent with problem gambling or potential
+financial distress. The merchant category (gambling operator) represents a regulated
+high-risk sector requiring enhanced monitoring under UK Gambling Commission guidance.
+The transaction amount of £1,850 exceeds the account's established average spend of £95
+by a factor of 19, representing a significant deviation from baseline behaviour. The
+account shows no prior gambling transactions in its 142-day history across 31 transactions,
+indicating a sudden change in spending pattern.
+
+PRIOR_RELATIONSHIP:
+Account ACC-03291 was opened 142 days ago and has an established transaction history of
+31 transactions. The account has shown consistent domestic activity to retail and
+subscription merchants with no prior high-risk category transactions. Transaction timing
+(21:15 UTC) falls within the account's typical activity hours (07:00–23:00). Device and
+IP address are both registered and consistent with prior activity. Account holder contacted
+the institution approximately one week prior to this transaction inquiring about betting
+limits, suggesting possible premeditation of gambling activity.
+
+RECOMMENDED_ACTION:
+Monitor and review — do not file SAR at this time. The combination of borderline confidence
+(61%), established account history, known device usage, and prior customer inquiry regarding
+betting limits suggests this may represent legitimate, intentional activity. Recommend
+enhanced monitoring for 30 days to identify repeat high-value gambling transactions. File
+SAR if pattern emerges (e.g., 3+ transactions >£1,000 to gambling merchants within 30 days)
+or if subsequent transactions exhibit additional risk indicators.
+
+---
+
+⚠️ ANALYST REMINDER: Review all figures against source data before filing.
+CRITICAL: Customer inquiry about betting limits one week prior suggests this may be
+legitimate activity. Confirm details of prior customer contact before proceeding.
+This is a borderline case — analyst discretion required.

@@ -1,0 +1,35 @@
+--- FRAUDSENTINEL REJECTED TRANSACTION ---
+
+TRANSACTION
+  Amount:    £1,850
+  Currency:  GBP
+  Merchant:  BetKing Casino
+  Location:  United Kingdom
+  Date/Time: 2024-06-22 21:15 UTC
+  Device:    Mobile (known — registered)
+  IP:        82.44.201.17
+
+USER PROFILE
+  Account ID:       ACC-03291
+  Account age:      142 days
+  Tx count:         31
+  Avg spend:        £95
+  Known countries:  UK
+  Known merchants:  Sainsburys, Spotify, ASOS, Just Eat
+  Typical hours:    07:00–23:00
+
+FRAUDSENTINEL OUTPUT
+  Detector flags:   high_risk_merchant, amount_vs_baseline
+  Detector score:   54 / 100
+  Investigator:     Deviation score 41 / 100
+                    Account shows occasional evening spend. No prior gambling
+                    transactions. Amount is 19x above average but account has
+                    established history. Single anomaly on otherwise clean profile.
+  Final verdict:    REJECTED
+  Confidence:       61%
+  Decision reason:  High-risk merchant (gambling) with significant amount deviation.
+                    Borderline score — investigator notes established account history
+                    as mitigating factor.
+
+ANALYST NOTES
+  Customer called in last week asking about betting limits — may be intentional spend.
