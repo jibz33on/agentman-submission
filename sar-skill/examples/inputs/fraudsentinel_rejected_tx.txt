@@ -1,31 +1,36 @@
 --- FRAUDSENTINEL REJECTED TRANSACTION ---
 
 TRANSACTION
-  Amount:    £4,200
-  Currency:  GBP
-  Merchant:  CryptoSwap Pro
+  Amount:    USD 3,500
+  Currency:  USD
+  Merchant:  Crypto Exchange XY
   Location:  Lagos, Nigeria
-  Date/Time: 2024-03-15 03:42 UTC
-  Device:    Mobile (new — unregistered)
-  IP:        102.89.33.201
+  Date/Time: 2024-04-17 09:12 UTC
+  Device:    Unknown
+  IP:        (not recorded)
 
 USER PROFILE
-  Account ID:       ACC-00847
-  Account age:      23 days
-  Tx count:         4
-  Avg spend:        £180
-  Known countries:  UK
-  Known merchants:  Tesco, Netflix, Amazon
-  Typical hours:    08:00–22:00
+  Account ID:       Jimmy K (demo-03-f563ad)
+  Account age:      547 days
+  Tx count:         503
+  Avg spend:        USD 85
+  Known countries:  India
+  Known merchants:  Zomato, Steam, Google Play, Netflix, Crypto Exchange XY
+  Typical hours:    09:00–22:00
 
 FRAUDSENTINEL OUTPUT
-  Detector flags:   foreign_transaction, high_risk_merchant, new_device, new_account
-  Detector score:   87 / 100
-  Investigator:     SKIPPED (< 5 transactions — no behavioural baseline)
+  Detector flags:   amount_vs_baseline, foreign_transaction, high_risk_merchant,
+                    ip_location_mismatch, velocity
+  Detector score:   100 / 100
+  Investigator:     Deviation score: 70 — Transaction deviates with unusually high
+                    amount of $3,500 and new country of origin (NG). Amount is 41x
+                    above average spend of $85. Hour matches known pattern but
+                    amount and country collectively score 70/100 deviation.
   Final verdict:    REJECTED
-  Confidence:       91%
-  Decision reason:  High-risk merchant (crypto exchange) + foreign IP on new account
-                    with no behavioural baseline. Detector override applied (score 87).
+  Confidence:       100%
+  Decision reason:  Amount 41.2x above user average, high-risk merchant (crypto
+                    exchange), foreign transaction from domestic user profile,
+                    transaction in unfamiliar location (NG).
 
 ANALYST NOTES
   (none)
